@@ -1,33 +1,33 @@
 import { Link } from "react-router-dom";
 
-const Card = ({ card }) => {
+const Card = ({ data }) => {
   return (
-    <>
-      {card.map((item, index) => {
-        return (
-          <div className="grid grid-cols-2 gap-4 mt-4 mb-4" key={index}>
-            <Link to={`/product/${item.id}`}>
-              <div className="max-w-sm rounded overflow-hidden shadow-lg">
-                <img
-                  className="w-full"
-                  src={item.url}
-                  alt="Sunset in the mountains"
-                ></img>
-                <div className="px-6 py-4">
-                  <p className="text-gray-700 text-base">{item.description}</p>
-                </div>
-                <div className="mt-2 mb-2 flex gap-2 justify-center">
-                  <span>${item.price}</span>
-                  <button className="btn bg-yellow-600 felx justify-center items-center w-28 rounded">
-                    Add To Cart
-                  </button>
-                </div>
-              </div>
-            </Link>
+    <div className=" flex flex-col mt-4 mb-4">
+      <div
+        className=" border rounded overflow-hidden hover:shadow-xl bg-orange-white-50 w-56 h-80 m-2 flex flex-col items-center gap-2"
+        key={data.id}
+      >
+        <img src={data.image} alt="" className="w-full h-44 m-0" />
+        <div>
+          <div className="p-2 flex gap-3 flex-col items-start">
+            <div className="text-slate-800 truncate w-40">{data.name}</div>
+            <div className="text-slate-800 text-lg font-bold flex gap-1 ">
+              {data.price}
+              <span>تومان</span>
+            </div>
+            <div className="flex">
+              <Link
+                to={`/product/${data.id}`}
+                type="button"
+                className="text-white bg-copperfield-400 d-flex justify-content-center align-items-center w-44 rounded text-decoration-none"
+              >
+                مشاهده وخرید
+              </Link>
+            </div>
           </div>
-        );
-      })}
-    </>
+        </div>
+      </div>
+    </div>
   );
 };
 
