@@ -26,6 +26,20 @@ export const productApi = createApi({
     getAdmin: builder.query({
       query: () => "/users?role=admin",
     }),
+    getOrders: builder.query({
+      query: (id) => `orders?_page=${id}&_limit=7`,
+    }),
+
+    getListProduct: builder.query({
+      query: (id) => `products?_page=${id}&_limit=7`,
+    }),
+    getLength: builder.query({
+      query: () => "/products",
+      transformResponse: (response) => {
+        return response.length;
+      },
+    }),
+
     addData: builder.mutation({
       query: (products) => ({
         url: "/products",
@@ -59,6 +73,9 @@ export const {
   useGetSubCategoryQuery,
   useGetFilterCategoryQuery,
   useGetFilterProductQuery,
+  useGetOrdersQuery,
+  useGetLengthQuery,
+  useGetListProductQuery,
   useGetAdminQuery,
   useAddDataMutation,
   useDeleteDataMutation,

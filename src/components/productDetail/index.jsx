@@ -1,4 +1,3 @@
-import Counter from "components/counter";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { useGetFilterProductQuery } from "apis/apiSlice";
@@ -11,6 +10,7 @@ const ProductDetail = () => {
     <div>
       {products &&
         products.map((element) => {
+          console.log(element.description);
           return (
             <div className="mx-4 p-3 flex gap-5" key={element.id}>
               <img className="image border-2 rounded" src={element.image} />
@@ -18,7 +18,6 @@ const ProductDetail = () => {
                 <h3>{element.name}</h3>
                 <p>{element.description}</p>
                 <div className="flex gap-5 justify-center items-center">
-                  {/* <Counter /> */}
                   <span className="font-bold">قیمت:{element.price}</span>
                   <Link
                     to={"/basket"}
