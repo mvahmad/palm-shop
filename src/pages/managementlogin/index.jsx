@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { parseJwt } from "utils/functions.utils";
 
 const ManagementLogin = () => {
   const [error, setErroor] = useState("");
@@ -31,7 +30,6 @@ const ManagementLogin = () => {
       axios
         .post("http://localhost:3002/auth/login", { username, password })
         .then((response) => {
-          console.log(response);
           localStorage.setItem(
             "login",
             JSON.stringify({
@@ -47,9 +45,6 @@ const ManagementLogin = () => {
         });
     },
   });
-
-  // const storageParse = JSON.parse(localStorage.login);
-  // const userInfo = parseJwt(storageParse.token);
 
   return (
     <div className="bg-orange-white-50 h-screen w-screen flex justify-center items-center">

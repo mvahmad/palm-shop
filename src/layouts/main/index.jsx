@@ -1,4 +1,3 @@
-import Card from "components/card";
 import { useGetCateguryQuery } from "apis/apiSlice";
 import { Link } from "react-router-dom";
 import Category from "components/category";
@@ -19,10 +18,7 @@ const Main = () => {
               >
                 {el.name}
               </Link>
-              <Category id={el.id} />
-              <button className="bg-slate-400 rounded-full hover:text-white-linen-100 font-bold hover:shadow-lg  w-10 h-10 relative bottom-64 ">
-                {"<"}
-              </button>
+              <Category id={el.name} />
             </div>
           );
         })}

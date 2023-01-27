@@ -18,7 +18,7 @@ export const productApi = createApi({
       query: () => "/subcategory",
     }),
     getFilterCategory: builder.query({
-      query: (id) => `/products?category=${id}`,
+      query: (name) => `/products?category=${name}`,
     }),
     getFilterProduct: builder.query({
       query: (id) => `/products?id=${id}`,

@@ -3,6 +3,7 @@ import { useGetFilterCategoryQuery } from "apis/apiSlice";
 
 const Category = ({ id }) => {
   const { data: allData } = useGetFilterCategoryQuery(id);
+  console.log(allData);
   return (
     <div className="category flex">
       {allData &&

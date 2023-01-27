@@ -8,7 +8,7 @@ const PaginationManager = ({ path }) => {
     return <span>loading...</span>;
   } else {
     const limit = paginateNumber(dataLength, 7);
-    console.log("limit", limit);
+
     let buttonsArray = [];
     for (let index = 0; index < limit; index += 1) {
       buttonsArray[index] = { number: index + 1 };
