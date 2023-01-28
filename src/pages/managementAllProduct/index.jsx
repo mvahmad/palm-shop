@@ -13,7 +13,7 @@ const ManagementAllProduct = () => {
           افزودن کالا
         </button>
       </div>
-      <div className="flex flex-col gap-1 justify-center items-center p-10">
+      <div className="flex flex-col gap-1 justify-center items-center pl-10 pr-10">
         <table className="table table-hover ">
           <thead>
             <tr className="bg-copperfield-400">
