@@ -2,8 +2,8 @@ import { Link } from "react-router-dom";
 
 function ManagemetNavbar() {
   return (
-    <div className="flex justify-center items-center mt-3 ">
-      <div className="flex items-center justify-around p-2 bg-white-linen-100 rounded-lg w-96 ">
+    <div className="flex justify-center items-center ">
+      <div className="flex items-center justify-around p-2 bg-white-linen-100 rounded-b-lg  w-96 ">
         <Link
           to={"/management-product/all-products/page/1"}
           id="1"
