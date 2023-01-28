@@ -49,36 +49,40 @@ const ManagementLogin = () => {
   return (
     <div className="bg-orange-white-50 h-screen w-screen flex justify-center items-center">
       <form
-        className="flex flex-col gap-3 rounded-lg h-80 w-72 shadow-md bg-white-linen-100 p-2 "
+        className="flex flex-col gap-3  rounded-lg h-80 w-72 shadow-md bg-white-linen-100 p-2 "
         onSubmit={formik.handleSubmit}
       >
         <div className="text-copperfield-500 font-bold flex justify-center items-center text-lg ">
           ورود به پنل مدیریتی فروشگاه نخل
         </div>
-        <div className="flex flex-col ">
+        <div className="flex flex-col gap-1 ">
           <label className="font-bold ">نام کاربری:</label>
-          <input
-            name="username"
-            type="text"
-            className="rounded h-7 hover:drop-shadow-lg"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.username}
-          />
+          <div className="flex flex-col   hover:drop-shadow-lg justify-center">
+            <input
+              name="username"
+              type="text"
+              className="h-7 p-2 rounded-lg bg-orange-white-50 border border-slate-700 focus:outline-none focus:border-none"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.username}
+            />
+          </div>
           {formik.touched.username && formik.errors.username ? (
             <span className="text-red-500">{formik.errors.username}</span>
           ) : null}
         </div>
-        <div className="flex flex-col ">
+        <div className="flex flex-col gap-1">
           <label className="font-bold ">رمز عبور:</label>
-          <input
-            name="password"
-            type="password"
-            className="rounded h-7 hover:drop-shadow-lg"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.password}
-          />
+          <div className="flex flex-col  hover:drop-shadow-lg justify-center">
+            <input
+              name="password"
+              type="password"
+              className="h-7 p-2 rounded-lg bg-orange-white-50 border border-slate-700 focus:outline-none focus:border-none"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.password}
+            />
+          </div>
           {formik.touched.password && formik.errors.password ? (
             <span className="text-red-500">{formik.errors.password}</span>
           ) : null}
