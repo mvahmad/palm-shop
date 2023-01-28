@@ -6,9 +6,14 @@ const ManagementAllProduct = () => {
   const { data: allData } = useGetListProductQuery(id.pageNumber);
 
   return (
-    <div className="flex flex-col gap-1 justify-center items-center">
-      <h3>مدیریت کالاها</h3>
-      <div>
+    <div className="flex flex-col">
+      <div className="flex justify-around p-2">
+        <h3>مدیریت کالاها</h3>
+        <button className="bg-copperfield-400 rounded hover:shadow-md w-24 ">
+          افزودن کالا
+        </button>
+      </div>
+      <div className="flex flex-col gap-1 justify-center items-center p-10">
         <table className="table table-hover ">
           <thead>
             <tr className="bg-copperfield-400">
@@ -41,8 +46,8 @@ const ManagementAllProduct = () => {
               })}
           </tbody>
         </table>
+        <PaginationManager path={"all-products"} />
       </div>
-      <PaginationManager path={"all-products"} />
     </div>
   );
 };
