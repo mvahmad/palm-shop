@@ -18,7 +18,7 @@ const PaginationManager = ({ path }) => {
       return (
         <Link to={`/management-product/${path}/page/${item.number}`}>
           <button
-            className=" border border-slate-700 hover:shadow-md w-8 h-8 mb-4"
+            className="border border-slate-700 text-slate-700 font-bold hover:shadow-lg w-8 h-8 mb-4"
             key={item.number}
           >
             {item.number}
