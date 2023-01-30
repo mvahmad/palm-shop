@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import Fotter from "layouts/footer";
 
 const ManagementLogin = () => {
   const [error, setErroor] = useState("");
@@ -57,7 +58,7 @@ const ManagementLogin = () => {
         </div>
         <div className="flex flex-col gap-1 ">
           <label className="font-bold ">نام کاربری:</label>
-          <div className="flex flex-col   hover:drop-shadow-lg justify-center">
+          <div className="flex flex-col hover:drop-shadow-lg justify-center">
             <input
               name="username"
               type="text"

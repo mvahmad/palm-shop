@@ -1,6 +1,8 @@
 import { useParams } from "react-router-dom";
 import { useGetListProductQuery } from "apis/apiSlice";
 import PaginationManager from "components/pagination";
+import { useState } from "react";
+import AddProductModal from "components/modal";
 const ManagementAllProduct = () => {
   const id = useParams(":pageId");
   const { data: allData } = useGetListProductQuery(id.pageNumber);
@@ -9,9 +11,7 @@ const ManagementAllProduct = () => {
     <div className="flex flex-col">
       <div className="flex justify-around p-2">
         <h3>مدیریت کالاها</h3>
-        <button className="bg-copperfield-400 rounded hover:shadow-md w-24 ">
-          افزودن کالا
-        </button>
+        <AddProductModal />
       </div>
       <div className="flex flex-col gap-1 justify-center items-center pl-10 pr-10">
         <table className="table table-hover ">
