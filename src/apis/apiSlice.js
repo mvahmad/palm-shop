@@ -23,6 +23,9 @@ export const productApi = createApi({
     getFilterProduct: builder.query({
       query: (id) => `/products?id=${id}`,
     }),
+    getSearchProduct: builder.query({
+      query: (value) => `/products?q=${value}`,
+    }),
     getAdmin: builder.query({
       query: () => "/users?role=admin",
     }),
@@ -73,6 +76,7 @@ export const {
   useGetSubCategoryQuery,
   useGetFilterCategoryQuery,
   useGetFilterProductQuery,
+  useGetSearchProductQuery,
   useGetOrdersQuery,
   useGetLengthQuery,
   useGetListProductQuery,
