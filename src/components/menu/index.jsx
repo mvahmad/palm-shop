@@ -3,10 +3,10 @@ import { useGetCateguryQuery } from "apis/apiSlice";
 import { BsSearch } from "react-icons/bs";
 const Menu = () => {
   const { data: category } = useGetCateguryQuery();
-  const iconStyles = { fontSize: "1.5em" };
+  const iconStyles = { fontSize: "1.5rem" };
   return (
     <div className="rounded-b-lg bg-white-linen-100 mx-4 h-10 ">
-      <ul className="flex justify-between">
+      <ul className="flex justify-between items-center">
         <div className="flex gap-4  pr-4">
           {category &&
             category.map((el) => {
