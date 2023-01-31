@@ -29,7 +29,7 @@ const AddProductModal = () => {
               <label>تصویر کالا:</label>
               <div className="w-full flex gap-3">
                 <input
-                  type="text"
+                  type="file"
                   className="bg-slate-300 p-1 w-full focus:outline-none focus:border-none"
                 />
                 <button className="bg-copperfield-400 rounded hover:shadow-md w-24 ">
