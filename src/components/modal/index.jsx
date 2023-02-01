@@ -3,22 +3,24 @@ import * as Yup from "yup";
 import { useState } from "react";
 import { useAddDataMutation } from "apis/apiSlice";
 import { useFormik } from "formik";
+import axios from "axios";
 
 const AddProductModal = () => {
   const [show, setShow] = useState(false);
+  const [addProduct] = useAddDataMutation();
+
+  const [imageFile, setImageFile] = useState(null);
 
   const handeleClose = (e) => {
     e.preventDefault();
     console.log(formik.values);
+    // for(const file of)
     setShow(false);
   };
   const handeleShow = () => setShow(true);
 
-  const [addProduct] = useAddDataMutation();
-
   const formik = useFormik({
     initialValues: {
-      image: "",
       name: "",
       category: "",
       brand: "",
@@ -35,6 +37,18 @@ const AddProductModal = () => {
       description: Yup.string().required("توضیحات نباید خالی"),
     }),
   });
+
+  const imageHandeler = async (e) => {
+    const filesSelected = e.target.files;
+    console.log("select", filesSelected[0]);
+    const formData = new FormData();
+    formData.append("image", filesSelected[0]);
+    console.log("formdata", formData);
+
+    await axios.post("http://localhost:3000/upload", formData).then((res) => {
+      console.log(res.data.filename);
+    });
+  };
 
   return (
     <>
@@ -56,15 +70,11 @@ const AddProductModal = () => {
               <div className="w-full flex gap-3">
                 <input
                   name="image"
-                  type="text"
+                  accept="image/*"
+                  type="file"
                   className="bg-slate-300 p-1 w-full focus:outline-none focus:border-none"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.image}
+                  onChange={imageHandeler}
                 />
-                <button className="bg-copperfield-400 rounded hover:shadow-md w-24 ">
-                  جست و جو
-                </button>
               </div>
             </div>
             <div className="flex flex-col gap-1">
