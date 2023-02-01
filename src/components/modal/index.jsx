@@ -4,23 +4,24 @@ import { useState } from "react";
 import { useAddDataMutation } from "apis/apiSlice";
 import { useFormik } from "formik";
 import axios from "axios";
+import { async } from "q";
+
+let fileSrc = null;
 
 const AddProductModal = () => {
   const [show, setShow] = useState(false);
   const [addProduct] = useAddDataMutation();
 
-  const [imageFile, setImageFile] = useState(null);
-
   const handeleClose = (e) => {
     e.preventDefault();
     console.log(formik.values);
-    // for(const file of)
     setShow(false);
   };
   const handeleShow = () => setShow(true);
 
   const formik = useFormik({
     initialValues: {
+      image: null,
       name: "",
       category: "",
       brand: "",
@@ -30,6 +31,7 @@ const AddProductModal = () => {
     },
     validationSchema: Yup.object({
       name: Yup.string().required("نام  نباید خالی باشد"),
+
       brand: Yup.string().required("برند نباید خالی باشد"),
       price: Yup.number().required("قیمت نباید خالی باشد"),
       category: Yup.string().required("دسته بندی نباید خالی باشد"),
@@ -40,13 +42,27 @@ const AddProductModal = () => {
 
   const imageHandeler = async (e) => {
     const filesSelected = e.target.files;
-    console.log("select", filesSelected[0]);
+
     const formData = new FormData();
     formData.append("image", filesSelected[0]);
-    console.log("formdata", formData);
 
     await axios.post("http://localhost:3000/upload", formData).then((res) => {
       console.log(res.data.filename);
+      fileSrc = res.data.filename;
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    addProduct({
+      name: formik.values.name,
+      image: `http://localhost:3000/files/${fileSrc}`,
+      brand: formik.values.brand,
+      category: formik.values.category,
+      subCategory: formik.values.subCategory,
+      price: formik.values.price,
+      description: formik.values.description,
     });
   };
 
@@ -64,7 +80,7 @@ const AddProductModal = () => {
         </Modal.Header>
 
         <Modal.Body>
-          <form className="flex flex-col gap-2" onSubmit={handeleClose}>
+          <form className="flex flex-col gap-2" onSubmit={handleSubmit}>
             <div className="flex flex-col gap-1">
               <label>تصویر کالا:</label>
               <div className="w-full flex gap-3">
