@@ -29,7 +29,7 @@ const ManagementLogin = () => {
     onSubmit: (values) => {
       const { username, password } = values;
       axios
-        .post("http://localhost:3002/auth/login", { username, password })
+        .post("http://localhost:3000/auth/login", { username, password })
         .then((response) => {
           localStorage.setItem(
             "login",
