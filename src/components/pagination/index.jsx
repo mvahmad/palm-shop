@@ -16,18 +16,24 @@ const PaginationManager = ({ path }) => {
 
     content = buttonsArray.map((item) => {
       return (
-        <Link to={`/management-product/${path}/page/${item.number}`}>
-          <button
-            className="border border-slate-700 text-slate-700 font-bold hover:shadow-lg w-8 h-8 mb-4"
-            key={item.number}
-          >
-            {item.number}
-          </button>
-        </Link>
+        <div key={item.number}>
+          <Link to={`/management-product/${path}/page/${item.number}`}>
+            <button
+              className="border border-slate-700 text-slate-700 font-bold hover:shadow-lg w-8 h-8 mb-4"
+              key={item.number}
+            >
+              {item.number}
+            </button>
+          </Link>
+        </div>
       );
     });
   }
-  return content ? <span>{content}</span> : <span>loading...</span>;
+  return content ? (
+    <span className="flex">{content}</span>
+  ) : (
+    <span>loading...</span>
+  );
 };
 export default PaginationManager;
 
