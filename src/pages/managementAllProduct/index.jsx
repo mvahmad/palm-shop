@@ -1,11 +1,14 @@
 import { useParams } from "react-router-dom";
-import { useGetListProductQuery } from "apis/apiSlice";
+import { useGetListProductQuery, useDeleteDataMutation } from "apis/apiSlice";
 import PaginationManager from "components/pagination";
 import { useState } from "react";
 import AddProductModal from "components/modal";
+import UpdateDataModal from "components/updateModal";
+
 const ManagementAllProduct = () => {
   const id = useParams(":pageId");
   const { data: allData } = useGetListProductQuery(id.pageNumber);
+  const [removeProduct] = useDeleteDataMutation();
 
   return (
     <div className="flex flex-col">
@@ -37,9 +40,16 @@ const ManagementAllProduct = () => {
                     <td className="border-slate-800">
                       {element.category}/{element.subcategory}
                     </td>
-                    <td className="border-2 border-slate-800">
-                      <button className="font-bold">ویرایش</button>/
-                      <button className="font-bold">حذف</button>
+                    <td className="border-2 border-slate-800 gap-1">
+                      <UpdateDataModal id={element.id} />
+
+                      <button
+                        type="button"
+                        className="bg-copperfield-500 text-white rounded hover:shadow-md w-24"
+                        onClick={() => removeProduct({ id: element.id })}
+                      >
+                        حذف
+                      </button>
                     </td>
                   </tr>
                 );

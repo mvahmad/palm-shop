@@ -1,30 +1,33 @@
+import { useUpdateDataMutation, useGetFilterProductQuery } from "apis/apiSlice";
+import { useFormik } from "formik";
 import Modal from "react-bootstrap/Modal";
 import * as Yup from "yup";
 import { useState } from "react";
-import { useAddDataMutation } from "apis/apiSlice";
-import { useFormik } from "formik";
 import axios from "axios";
 
 let fileSrc = null;
-
-const AddProductModal = () => {
+const UpdateDataModal = ({ id }) => {
   const [show, setShow] = useState(false);
-  const [addProduct] = useAddDataMutation();
+  const [updateProduct] = useUpdateDataMutation();
+  const { data: filterProduct } = useGetFilterProductQuery(id);
 
-  const handeleClose = (e) => {
-    setShow(false);
+  const handeleClose = () => setShow(false);
+  let product = filterProduct && filterProduct[0];
+
+  const handeleShow = () => {
+    setShow(true);
+    console.log(product);
   };
-  const handeleShow = () => setShow(true);
 
   const formik = useFormik({
     initialValues: {
-      image: null,
-      name: "",
-      category: "",
-      brand: "",
-      price: "",
-      description: "",
-      subCategory: "",
+      image: product && product.imag,
+      //   name: product.name,
+      //   category: product.category,
+      //   brand: product.brand,
+      //   price: product.price,
+      //   description: product.description,
+      //   subCategory: product.subCategory,
     },
     validationSchema: Yup.object({
       name: Yup.string().required("نام  نباید خالی باشد"),
@@ -50,7 +53,7 @@ const AddProductModal = () => {
   };
 
   const handleSubmit = async () => {
-    addProduct({
+    updateProduct({
       name: formik.values.name,
       image: `http://localhost:3000/files/${fileSrc}`,
       brand: formik.values.brand,
@@ -64,10 +67,10 @@ const AddProductModal = () => {
   return (
     <>
       <button
-        className="bg-copperfield-400 rounded hover:shadow-md w-24 "
+        className="bg-blue-400 rounded text-white ml-1 hover:shadow-md w-24 "
         onClick={handeleShow}
       >
-        افزودن کالا
+        ویرایش
       </button>
       <Modal show={show} onHide={handeleClose} backdrop="static">
         <Modal.Header>
@@ -98,6 +101,7 @@ const AddProductModal = () => {
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   value={formik.values.name}
+                  placeholder={formik.values.name}
                 />
               </div>
             </div>
@@ -190,4 +194,4 @@ const AddProductModal = () => {
     </>
   );
 };
-export default AddProductModal;
+export default UpdateDataModal;

@@ -2,14 +2,17 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const productApi = createApi({
   reducerPath: "productApi",
+
   baseQuery: fetchBaseQuery({
     baseUrl: "http://localhost:3000",
   }),
-  // tagTypes: ["Products"],
+  tagTypes: ["Products"],
+
   endpoints: (builder) => ({
     getData: builder.query({
       query: () => "/products",
-      // providesTags: ["Products"],
+      transformResponse: (res) => res.sort((a, b) => b.id - a.id),
+      providesTags: ["Products"],
     }),
     getCategury: builder.query({
       query: () => "/category",
@@ -46,23 +49,32 @@ export const productApi = createApi({
         method: "POST",
         body: products,
       }),
-      // invalidatesTags: ["Products"],
+      invalidatesTags: ["Products"],
     }),
     updateData: builder.mutation({
       query: (products) => ({
         url: `/products/${products.id}`,
         method: "PATCH",
         body: products,
+        // headers: {
+        //   token: `${JSON.parse(localStorage.getItem("login")).token}`,
+        //   contentType: "application/json",
+        // },
       }),
-      // invalidatesTags: ["Products"],
+      invalidatesTags: ["Products"],
     }),
     deleteData: builder.mutation({
       query: ({ id }) => ({
         url: `/products/${id}`,
         method: "DELETE",
         body: id,
+        headers: {
+          token: `${JSON.parse(localStorage.getItem("login")).token}`,
+          contentType: "application/json",
+        },
       }),
-      // invalidatesTags: ["Products"],
+
+      invalidatesTags: ["Products"],
     }),
   }),
 });
