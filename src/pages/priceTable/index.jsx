@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { useGetListProductQuery } from "apis/apiSlice";
+import { useGetListProductQuery, useUpdateDataMutation } from "apis/apiSlice";
 import PaginationManager from "components/pagination";
 import { useState } from "react";
 import { useFormik } from "formik";
@@ -8,21 +8,8 @@ import { useEffect } from "react";
 const PriceTable = () => {
   const id = useParams(":pageId");
   const { data: allData } = useGetListProductQuery(id.pageNumber);
-  let dataId = [];
-  useEffect(() => {
-    allData &&
-      allData.map((item) => {
-        dataId.push(item.id);
-      });
-  }, [allData]);
-  console.log(dataId);
+  const [updateData] = useUpdateDataMutation();
 
-  // const formik = useFormik({
-  //   initialValues: {
-  //     price: "",
-  //     quantity: "",
-  //   },
-  // });
   return (
     <div className="flex flex-col">
       <div className="flex justify-around p-2">
@@ -54,10 +41,22 @@ const PriceTable = () => {
                       {element.name}
                     </td>
                     <td className="border-2 border-slate-800">
-                      <input type="number" defaultValue={element.price} />
+                      <input
+                        type="number"
+                        defaultValue={element.price}
+                        onChange={(e) => {
+                          updateData({ ...element, price: e.target.value });
+                        }}
+                      />
                     </td>
                     <td className="border-2 border-slate-800">
-                      <input type="number" defaultValue={element.quantity} />
+                      <input
+                        type="number"
+                        defaultValue={element.quantity}
+                        onChange={(e) =>
+                          updateData({ ...element, quantity: e.target })
+                        }
+                      />
                     </td>
                   </tr>
                 );

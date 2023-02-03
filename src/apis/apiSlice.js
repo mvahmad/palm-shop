@@ -56,10 +56,10 @@ export const productApi = createApi({
         url: `/products/${products.id}`,
         method: "PATCH",
         body: products,
-        // headers: {
-        //   token: `${JSON.parse(localStorage.getItem("login")).token}`,
-        //   contentType: "application/json",
-        // },
+        headers: {
+          token: `${JSON.parse(localStorage.getItem("login")).token}`,
+          contentType: "application/json",
+        },
       }),
       invalidatesTags: ["Products"],
     }),
