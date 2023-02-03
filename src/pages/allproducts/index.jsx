@@ -1,14 +1,14 @@
 import Fotter from "layouts/footer";
 import Header from "layouts/header";
 
-const Products = () => {
+const AllProducts = () => {
   return (
     <>
       <Header />
-      <div className="">Products</div>
+      <div className="bg-red-400">Productsdcsdcsdc</div>
       <Fotter />
     </>
   );
 };
 
-export default Products;
+export default AllProducts;
