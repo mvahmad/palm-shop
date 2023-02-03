@@ -12,7 +12,7 @@ const Header = () => {
     <>
       <header className="bg-copperfield-400 flex h-12 header w-full justify-between pr-4 items-center">
         <Link
-          className="text-orange-white-50 text-2xl  justify-start items-center flex text-decoration-none"
+          className="text-orange-white-50 text-2xl hover:text-copperfield-600 justify-start items-center flex text-decoration-none"
           to={"/home"}
         >
           {title}

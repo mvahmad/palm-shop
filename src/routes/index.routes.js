@@ -14,6 +14,9 @@ import PrivetRout from "./privetRouts.routes";
 import ManagementAllProduct from "pages/managementAllProduct";
 import PriceTable from "pages/priceTable";
 import Orders from "pages/orders";
+import Serch from "components/serchBar";
+import ProductsPage from "pages/products";
+
 const AppRoutes = () => {
   return (
     <Routes>
@@ -25,7 +28,8 @@ const AppRoutes = () => {
       <Route path="/basketform" element={<BasketForm />} />
       <Route path="/payment" element={<Payment />} />
       <Route path="/management-login" element={<ManagementLogin />} />
-
+      <Route path="/serch" element={<Serch />} />
+      <Route path="/products/:id" element={<ProductsPage />} />
       <Route
         path="/management-product"
         element={
