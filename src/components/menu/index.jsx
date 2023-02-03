@@ -14,7 +14,7 @@ const Menu = () => {
                 <li key={el.id}>
                   <Link
                     className="text-copperfield-400 hover:text-copperfield-600 text-decoration-none"
-                    to={"/products"}
+                    to={`/products/${el.name}`}
                   >
                     {el.name}
                   </Link>
