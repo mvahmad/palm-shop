@@ -80,9 +80,7 @@ const AddProductModal = () => {
               <label>تصویر کالا:</label>
               <div className="w-full flex gap-3">
                 <input
-                  name="image"
-                  accept="image/*"
-                  type="file"
+                  type="text"
                   className="bg-slate-300 p-1 w-full focus:outline-none focus:border-none"
                   onChange={imageHandeler}
                 />

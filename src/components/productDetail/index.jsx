@@ -5,7 +5,6 @@ import "../../assets/styles/image.css";
 const ProductDetail = () => {
   const { id } = useParams();
   const { data: products } = useGetFilterProductQuery(id);
-
   return (
     <div>
       {products &&
