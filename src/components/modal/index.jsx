@@ -167,7 +167,7 @@ const AddProductModal = () => {
                 />
               </div>
             </div>
-            <div>
+            <div className="flex gap-1">
               <button
                 type="submit"
                 className="bg-green-400 rounded hover:shadow-md w-24"
