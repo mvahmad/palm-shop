@@ -55,6 +55,13 @@ export const productApi = createApi({
       }),
       invalidatesTags: ["Products"],
     }),
+    addCardData: builder.mutation({
+      query: (products) => ({
+        url: "/card",
+        method: "POST",
+        body: products,
+      }),
+    }),
     updateData: builder.mutation({
       query: (products) => ({
         url: `/products/${products.id}`,
@@ -90,12 +97,12 @@ export const {
   useGetFilterCategoryQuery,
   useGetFilterProductQuery,
   useGetSearchProductQuery,
-
   useGetOrdersQuery,
   useGetLengthQuery,
   useGetListProductQuery,
   useGetAdminQuery,
   useAddDataMutation,
+  useAddCardDataMutation,
   useDeleteDataMutation,
   useUpdateDataMutation,
 } = productApi;

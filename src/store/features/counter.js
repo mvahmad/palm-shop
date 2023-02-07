@@ -8,6 +8,9 @@ function increment(state) {
 
 function decrement(state) {
   state.value -= 1;
+  if (state.value === 0) {
+    state.value = 1;
+  }
 }
 const counterSlice = createSlice({
   name: "counter",
