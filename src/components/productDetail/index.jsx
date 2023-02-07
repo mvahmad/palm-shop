@@ -18,6 +18,7 @@ const ProductDetail = () => {
                 <p>{element.description}</p>
                 <div className="flex gap-5 justify-center items-center">
                   <span className="font-bold">قیمت:{element.price}</span>
+
                   <Link
                     to={"/basket"}
                     className="text-white bg-copperfield-400 d-flex justify-content-center align-items-center w-44 rounded text-decoration-none"
