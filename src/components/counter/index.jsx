@@ -1,22 +1,30 @@
-import { useDispatch, useSelector } from "react-redux";
-import { decrementAction, incrementAction } from "store/features/counter";
-const Counter = () => {
-  const value = useSelector((state) => state.counter.value);
-  const dispatch = useDispatch();
+import { useState } from "react";
+const Counter = ({ value }) => {
+  const [quantity, setQuantity] = useState(value);
+
+  const increment = () => {
+    setQuantity((count) => count + 1);
+  };
+  const decrement = () => {
+    if (quantity > 0) {
+      setQuantity((count) => count - 1);
+    }
+  };
+
   return (
     <div className="w-28 flex justify-between">
       <button
         className="bg-copperfield-500  rounded-r-lg text-white w-7"
-        onClick={() => dispatch(decrementAction())}
+        onClick={() => decrement()}
       >
         -
       </button>
       <div className="bg-orange-white-100 w-20 flex justify-center items-center">
-        {value}
+        {quantity}
       </div>
       <button
         className="bg-copperfield-500  rounded-l-lg text-white w-7"
-        onClick={() => dispatch(incrementAction())}
+        onClick={() => increment()}
       >
         +
       </button>

@@ -4,16 +4,28 @@ import { useSelector } from "react-redux";
 import {
   useGetFilterProductQuery,
   useAddCardDataMutation,
+  useGetCardlengthQuery,
 } from "apis/apiSlice";
 
 import "../../assets/styles/image.css";
-import Counter from "components/counter";
-const ProductDetail = () => {
-  const { id } = useParams();
-  const { data: products } = useGetFilterProductQuery(id);
-  const [dataCard] = useAddCardDataMutation();
-  const value = useSelector((state) => state.counter.value);
+import { useState } from "react";
 
+const ProductDetail = () => {
+  const { pageId } = useParams();
+  const { data: products } = useGetFilterProductQuery(pageId);
+  const { data: cardLength, isSuccess } = useGetCardlengthQuery();
+  let isExist;
+  let final;
+  if (isSuccess) {
+    isExist =
+      Boolean(cardLength.length) == false
+        ? false
+        : cardLength.filter((item) => item.id === Number(pageId));
+    final = isExist == false ? Number(pageId) : Number(isExist[0].id);
+  }
+
+  const [dataCard] = useAddCardDataMutation();
+  const [value, setValue] = useState(1);
   return (
     <div>
       {products &&
@@ -26,17 +38,38 @@ const ProductDetail = () => {
                 <p>{element.description}</p>
                 <div className="flex gap-5 justify-center items-center">
                   <span className="font-bold">قیمت:{element.price}</span>
-                  <Counter />
+                  <div className="w-28 flex justify-between">
+                    <button
+                      className="bg-copperfield-500  rounded-r-lg text-white w-7"
+                      onClick={() => setValue(value - 1)}
+                    >
+                      -
+                    </button>
+                    <div className="bg-orange-white-100 w-20 flex justify-center items-center">
+                      {value}
+                    </div>
+                    <button
+                      className="bg-copperfield-500  rounded-l-lg text-white w-7"
+                      onClick={() => setValue(value + 1)}
+                    >
+                      +
+                    </button>
+                  </div>
 
                   <button
                     className="text-white bg-copperfield-400 d-flex justify-content-center align-items-center w-44 rounded text-decoration-none"
                     onClick={() =>
                       dataCard({
-                        name: element.name,
-                        id: element.id,
-                        price: element.price,
-                        image: element.image,
-                        quantity: value,
+                        products: {
+                          id: Number(final),
+                          name: element.name,
+                          price: element.price,
+                          image: element.image,
+                          quantity: value,
+                        },
+                        isExist:
+                          Boolean(isExist.length) == false ? false : true,
+                        length: cardLength.length,
                       })
                     }
                   >
