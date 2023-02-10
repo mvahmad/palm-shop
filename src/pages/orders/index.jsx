@@ -42,8 +42,8 @@ const Orders = () => {
                   return (
                     <tr key={id} className="border-2 border-slate-800 ">
                       <td className="border-2  border-slate-800">
-                        {element.username}
-                        {element.lastname}
+                        {element.userinformation.fristName}
+                        {element.userinformation.lastName}
                       </td>
                       <td className="border-2  border-slate-800">
                         {element.prices}
@@ -52,7 +52,9 @@ const Orders = () => {
                         {element.createdAt}
                       </td>
                       <td className="border-2 border-slate-800">
-                        <button className="font-bold">بررسی سفارش</button>
+                        <button className="bg-blue-400 rounded text-white hover:shadow-md w-24">
+                          بررسی سفارش
+                        </button>
                       </td>
                     </tr>
                   );

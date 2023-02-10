@@ -12,7 +12,7 @@ const BasketForm = () => {
       address: "",
     },
     validationSchema: Yup.object({
-      fristName: Yup.string().required("نام نباید خالی باشد"),
+      userName: Yup.string().required("نام نباید خالی باشد"),
       lastName: Yup.string().required("نام خانوادگی نباید خالی باشد"),
       address: Yup.string().required("ادرس نباید خالی باشد"),
       phone: Yup.number()
@@ -20,23 +20,27 @@ const BasketForm = () => {
         .integer()
         .required("شماره تلفن نباید خالی باشد"),
     }),
+    onSubmit: (values) => {
+      localStorage.setItem("userinfo", JSON.stringify(values));
+    },
   });
+
   return (
     <>
       <Header />
       <div className="pr-6 pl-6 pt-3 pb-3">
         <h4>نهایی کردن خرید</h4>
-        <form className="flex flex-col gap-2">
+        <form className="flex flex-col gap-2" onSubmit={formik.handleSubmit}>
           <div className="flex gap-3">
             <div className="w-full">
               <label>نام:</label>
               <div className="w-full">
                 <input
-                  name="fristName"
+                  name="userName"
                   type="text"
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
-                  value={formik.values.fristName}
+                  value={formik.values.userName}
                   className="bg-slate-300 p-1 w-full focus:outline-none focus:border-none"
                 />
               </div>
@@ -94,13 +98,22 @@ const BasketForm = () => {
               <span className="text-red-500">{formik.errors.address}</span>
             ) : null}
           </div>
+          <div className="flex gap-2">
+            <button
+              type="button"
+              onClick={formik.handleSubmit}
+              className="text-white bg-copperfield-400 d-flex justify-content-center align-items-center w-44 rounded text-decoration-none p-1 mt-4 hover:shadow-md"
+            >
+              ثبت
+            </button>
+            <Link
+              to={"/payment"}
+              className="text-white bg-green-400 d-flex justify-content-center align-items-center w-44 rounded text-decoration-none p-1 mt-4 hover:shadow-md"
+            >
+              ادامه خرید
+            </Link>
+          </div>
         </form>
-        <Link
-          type="button"
-          className="text-white bg-copperfield-400 d-flex justify-content-center align-items-center w-44 rounded text-decoration-none p-2 mt-4 hover:shadow-md"
-        >
-          پرداخت
-        </Link>
       </div>
       <Fotter />
     </>

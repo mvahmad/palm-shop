@@ -49,11 +49,14 @@ export const productApi = createApi({
 
     getCardlength: builder.query({
       query: () => "/card",
-      // transformResponse: (response) => {
-      //   return response.length;
-      // },
     }),
-
+    addOrder: builder.mutation({
+      query: (products) => ({
+        url: "/orders",
+        method: "POST",
+        body: products,
+      }),
+    }),
     addData: builder.mutation({
       query: (products) => ({
         url: "/products",
@@ -110,6 +113,7 @@ export const {
   useGetLengthQuery,
   useGetListProductQuery,
   useGetAdminQuery,
+  useAddOrderMutation,
   useAddDataMutation,
   useAddCardDataMutation,
   useDeleteDataMutation,

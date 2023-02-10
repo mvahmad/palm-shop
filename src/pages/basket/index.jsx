@@ -65,10 +65,10 @@ const Basket = () => {
           <h5 className="font-bold">قیمت نهایی:{allPrice}تومان</h5>
           <Link
             to={"/basket-form"}
-            onClick={
-              (() => localStorage.setItem("basket", JSON.stringify(basketData)),
-              localStorage.setItem("allPriace", allPrice))
-            }
+            onClick={() => {
+              localStorage.setItem("basket", JSON.stringify(basketData));
+              localStorage.setItem("allPriace", allPrice);
+            }}
             type="button"
             className="text-white bg-copperfield-400 d-flex justify-content-center align-items-center w-44 rounded text-decoration-none"
           >
