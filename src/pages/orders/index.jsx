@@ -2,10 +2,12 @@ import { useParams } from "react-router-dom";
 import { useGetOrdersQuery } from "apis/apiSlice";
 import Form from "react-bootstrap/Form";
 import PaginationManager from "components/pagination";
+import OrderModal from "components/orderModal";
 
 const Orders = () => {
   const id = useParams(":pageId");
   const { data: allData } = useGetOrdersQuery(id.pageNumber);
+  console.log(allData);
   return (
     <div className="flex flex-col">
       <div className="flex justify-around p-2">
@@ -42,8 +44,8 @@ const Orders = () => {
                   return (
                     <tr key={id} className="border-2 border-slate-800 ">
                       <td className="border-2  border-slate-800">
-                        {element.username}
-                        {element.lastname}
+                        {element.userinformation.userName}
+                        {element.userinformation.lastName}
                       </td>
                       <td className="border-2  border-slate-800">
                         {element.prices}
@@ -52,7 +54,15 @@ const Orders = () => {
                         {element.createdAt}
                       </td>
                       <td className="border-2 border-slate-800">
-                        <button className="font-bold">بررسی سفارش</button>
+                        <OrderModal
+                          name={element.userinformation.userName}
+                          lname={element.userinformation.lastName}
+                          phone={element.userinformation.phone}
+                          address={element.userinformation.address}
+                          createdAt={element.createdAt}
+                          prices={element.prices}
+                          allData={allData}
+                        />
                       </td>
                     </tr>
                   );

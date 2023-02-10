@@ -16,6 +16,8 @@ import PriceTable from "pages/priceTable";
 import Orders from "pages/orders";
 import Serch from "components/serchBar";
 import ProductsPage from "pages/products";
+import SuccessPage from "pages/successPage";
+import Unsuccess from "pages/unSsccessPage";
 
 const AppRoutes = () => {
   return (
@@ -23,13 +25,16 @@ const AppRoutes = () => {
       <Route path="/home" element={<Home />} />
       <Route path="/" element={<Home />} />
       <Route path="/allproduct" element={<AllProducts />} />
-      <Route path="/product/:id" element={<Product />} />
+      <Route path="/product/:pageId" element={<Product />} />
       <Route path="/basket" element={<Basket />} />
-      <Route path="/basketform" element={<BasketForm />} />
+      <Route path="/basket-form" element={<BasketForm />} />
       <Route path="/payment" element={<Payment />} />
       <Route path="/management-login" element={<ManagementLogin />} />
       <Route path="/serch" element={<Serch />} />
       <Route path="/products/:id" element={<ProductsPage />} />
+      <Route path="/success-order" element={<SuccessPage />} />
+      <Route path="/unsuccess-order" element={<Unsuccess />} />
+
       <Route
         path="/management-product"
         element={
