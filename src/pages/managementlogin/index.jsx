@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import Fotter from "layouts/footer";
 
 const ManagementLogin = () => {
   const [error, setErroor] = useState("");

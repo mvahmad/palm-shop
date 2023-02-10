@@ -26,6 +26,7 @@ export const productApi = createApi({
     getFilterProduct: builder.query({
       query: (id) => `/products?id=${id}`,
     }),
+
     getSearchProduct: builder.query({
       query: (value) => `/products?q=${value}`,
     }),
@@ -46,6 +47,16 @@ export const productApi = createApi({
       },
     }),
 
+    getCardlength: builder.query({
+      query: () => "/card",
+    }),
+    addOrder: builder.mutation({
+      query: (products) => ({
+        url: "/orders",
+        method: "POST",
+        body: products,
+      }),
+    }),
     addData: builder.mutation({
       query: (products) => ({
         url: "/products",
@@ -54,6 +65,14 @@ export const productApi = createApi({
       }),
       invalidatesTags: ["Products"],
     }),
+    addCardData: builder.mutation({
+      query: ({ products, isExist, length }) => ({
+        url: check(length, isExist, Number(products.id)),
+        method: check2(length, isExist),
+        body: products,
+      }),
+    }),
+
     updateData: builder.mutation({
       query: (products) => ({
         url: `/products/${products.id}`,
@@ -89,11 +108,34 @@ export const {
   useGetFilterCategoryQuery,
   useGetFilterProductQuery,
   useGetSearchProductQuery,
+  useGetCardlengthQuery,
   useGetOrdersQuery,
   useGetLengthQuery,
   useGetListProductQuery,
   useGetAdminQuery,
+  useAddOrderMutation,
   useAddDataMutation,
+  useAddCardDataMutation,
   useDeleteDataMutation,
   useUpdateDataMutation,
 } = productApi;
+
+function check(length, isExist, product) {
+  if (length === 0) {
+    return "/card";
+  } else if (isExist === false) {
+    return "/card";
+  } else if (isExist === true) {
+    return `/card/${product}`;
+  }
+}
+
+function check2(length, isExist) {
+  if (length === 0) {
+    return "POST";
+  } else if (isExist === false) {
+    return "POST";
+  } else if (isExist === true) {
+    return "PATCH";
+  }
+}
