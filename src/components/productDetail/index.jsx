@@ -41,7 +41,9 @@ const ProductDetail = () => {
                   <div className="w-28 flex justify-between">
                     <button
                       className="bg-copperfield-500  rounded-r-lg text-white w-7"
-                      onClick={() => setValue(value - 1)}
+                      onClick={() =>
+                        value <= 0 ? setValue(value) : setValue(value - 1)
+                      }
                     >
                       -
                     </button>
