@@ -7,7 +7,7 @@ import OrderModal from "components/orderModal";
 const Orders = () => {
   const id = useParams(":pageId");
   const { data: allData } = useGetOrdersQuery(id.pageNumber);
-  console.log(allData);
+  console.log("orders", allData);
   return (
     <div className="flex flex-col">
       <div className="flex justify-around p-2">
@@ -62,6 +62,7 @@ const Orders = () => {
                           createdAt={element.createdAt}
                           prices={element.prices}
                           allData={allData}
+                          elementId={element.id}
                         />
                       </td>
                     </tr>

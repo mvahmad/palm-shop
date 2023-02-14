@@ -1,12 +1,23 @@
 import Modal from "react-bootstrap/Modal";
 import { useState } from "react";
 import { useGetOrdersQuery } from "apis/apiSlice";
-const OrderModal = ({ name, lname, phone, createdAt, address, allData }) => {
+const OrderModal = ({
+  name,
+  lname,
+  phone,
+  createdAt,
+  address,
+  allData,
+  elementId,
+}) => {
   const [show, setShow] = useState(false);
   const handeleClose = () => setShow(false);
   const handeleShow = () => setShow(true);
 
-  //   const content = allData.map;/
+  console.log(
+    "data",
+    allData.map((item) => console.log(item))
+  );
 
   return (
     <>
@@ -59,10 +70,13 @@ const OrderModal = ({ name, lname, phone, createdAt, address, allData }) => {
                       </tr>
                     </thead>
                     <tbody>
-                      {data.products.map((element, id) => {
-                        return (
-                          <tr key={id} className="border-2 border-slate-800">
-                            <td className="border-2 border-slate-800">
+                      {data
+                        .filter((el) => el.id === elementId)
+                        .map((element) => {
+                          return (
+                            <tr key={id} className="border-2 border-slate-800">
+                              <td>{element.name}</td>
+                              {/* <td className="border-2 border-slate-800">
                               {element.name}
                             </td>
                             <td className="border-2 border-slate-800">
@@ -70,10 +84,10 @@ const OrderModal = ({ name, lname, phone, createdAt, address, allData }) => {
                             </td>
                             <td className="border-2 border-slate-800">
                               {element.quantity}
-                            </td>
-                          </tr>
-                        );
-                      })}
+                            </td> */}
+                            </tr>
+                          );
+                        })}
                     </tbody>
                   </table>
                 );
