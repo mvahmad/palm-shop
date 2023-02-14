@@ -42,7 +42,7 @@ const ProductDetail = () => {
                     <button
                       className="bg-copperfield-500  rounded-r-lg text-white w-7"
                       onClick={() =>
-                        value <= 0 ? setValue(value) : setValue(value - 1)
+                        value <= 1 ? setValue(value) : setValue(value - 1)
                       }
                     >
                       -
