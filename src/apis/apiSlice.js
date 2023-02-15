@@ -85,6 +85,13 @@ export const productApi = createApi({
       }),
       invalidatesTags: ["Products"],
     }),
+    updateOrder: builder.mutation({
+      query: (products) => ({
+        url: `/orders/${products.id}`,
+        method: "PATCH",
+        body: products,
+      }),
+    }),
     deleteData: builder.mutation({
       query: ({ id }) => ({
         url: `/products/${id}`,
@@ -118,6 +125,7 @@ export const {
   useAddCardDataMutation,
   useDeleteDataMutation,
   useUpdateDataMutation,
+  useUpdateOrderMutation,
 } = productApi;
 
 function check(length, isExist, product) {

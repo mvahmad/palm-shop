@@ -54,16 +54,7 @@ const Orders = () => {
                         {element.createdAt}
                       </td>
                       <td className="border-2 border-slate-800">
-                        <OrderModal
-                          name={element.userinformation.userName}
-                          lname={element.userinformation.lastName}
-                          phone={element.userinformation.phone}
-                          address={element.userinformation.address}
-                          createdAt={element.createdAt}
-                          prices={element.prices}
-                          allData={allData}
-                          elementId={element.id}
-                        />
+                        <OrderModal allData={allData} elementId={element.id} />
                       </td>
                     </tr>
                   );

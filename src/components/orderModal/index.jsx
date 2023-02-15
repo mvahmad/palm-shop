@@ -1,29 +1,25 @@
 import Modal from "react-bootstrap/Modal";
 import { useState } from "react";
-import { useGetOrdersQuery } from "apis/apiSlice";
-const OrderModal = ({
-  name,
-  lname,
-  phone,
-  createdAt,
-  address,
-  allData,
-  elementId,
-}) => {
+import { useUpdateOrderMutation } from "apis/apiSlice";
+const OrderModal = ({ allData, elementId }) => {
   const [show, setShow] = useState(false);
-  const handeleClose = () => setShow(false);
-  const handeleShow = () => setShow(true);
+  const [orderData, setOrderData] = useState();
+  const [updateOrderData] = useUpdateOrderMutation();
 
-  console.log(
-    "data",
-    allData.map((item) => console.log(item))
-  );
+  const handeleClose = () => setShow(false);
+  const handeleShow = (id) => {
+    setShow(true);
+    const filteredOrder = allData.filter((data) => {
+      return data.id == id;
+    });
+    setOrderData(filteredOrder[0]);
+  };
 
   return (
     <>
       <button
         className="bg-blue-400 rounded hover:shadow-md w-24 text-white"
-        onClick={handeleShow}
+        onClick={() => handeleShow(elementId)}
       >
         بررسی سفارش
       </button>
@@ -41,63 +37,73 @@ const OrderModal = ({
             <div className="flex flex-col gap-3">
               <div className="flex gap-1">
                 <span>نام مشتری:</span>
-                <span>{name}</span>
-                <span>{lname}</span>
+                <span>{orderData && orderData.userinformation.userName}</span>
+                <span>{orderData && orderData.userinformation.lastName}</span>
               </div>
               <div className="flex gap-1">
                 <span>ادرس:</span>
-                {address}
+                {orderData && orderData.userinformation.address}
               </div>
               <div className="flex gap-1">
                 <span>تلفن:</span>
-                {phone}
+                {orderData && orderData.userinformation.phone}
               </div>
               <div className="flex gap-1">
                 <span>زمان سفارش:</span>
-                {createdAt}
+                {orderData && orderData.createdAt}
               </div>
             </div>
 
             <div className="m-2">
-              {allData.map((data, id) => {
-                return (
-                  <table key={id}>
-                    <thead>
-                      <tr className="bg-blue-400">
-                        <th className="border-2 border-slate-800">کالا</th>
-                        <th className="border-2 border-slate-800">قیمت</th>
-                        <th className="border-2 border-slate-800">تعداد</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {data
-                        .filter((el) => el.id === elementId)
-                        .map((element) => {
-                          return (
-                            <tr key={id} className="border-2 border-slate-800">
-                              <td>{element.name}</td>
-                              {/* <td className="border-2 border-slate-800">
-                              {element.name}
-                            </td>
-                            <td className="border-2 border-slate-800">
-                              {element.price * element.quantity}
-                            </td>
-                            <td className="border-2 border-slate-800">
-                              {element.quantity}
-                            </td> */}
-                            </tr>
-                          );
-                        })}
-                    </tbody>
-                  </table>
-                );
-              })}
+              <table>
+                <thead>
+                  <tr className="bg-blue-400">
+                    <th className="border-2 border-slate-800">کالا</th>
+                    <th className="border-2 border-slate-800">قیمت</th>
+                    <th className="border-2 border-slate-800">تعداد</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {orderData &&
+                    orderData.products.map((product, id) => {
+                      return (
+                        <tr key={id} className="border-2 border-slate-800">
+                          <td className="border-2 border-slate-800">
+                            {product.name}
+                          </td>
+                          <td className="border-2 border-slate-800">
+                            {product.price * product.quantity}
+                          </td>
+                          <td className="border-2 border-slate-800">
+                            {product.quantity}
+                          </td>
+                        </tr>
+                      );
+                    })}
+                </tbody>
+              </table>
             </div>
 
             <div className="flex gap-1 m-2">
               <button
                 type="submit"
                 className="bg-green-400 rounded hover:shadow-md w-24"
+                onClick={() => {
+                  const date = new Date();
+                  const options = {
+                    weekday: "long",
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  };
+                  const deleverDate = date.toLocaleDateString("fa-IR", options);
+
+                  updateOrderData({
+                    ...orderData,
+                    deleverd: true,
+                    deleteDate: deleverDate,
+                  });
+                }}
               >
                 تحویل شد
               </button>
