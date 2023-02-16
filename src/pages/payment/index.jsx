@@ -1,7 +1,6 @@
 import page from "assets/images/fishing.png";
 import { Link } from "react-router-dom";
 import { useAddOrderMutation } from "apis/apiSlice";
-import { info } from "autoprefixer";
 
 const Payment = () => {
   const orders = localStorage.getItem("basket");
@@ -18,14 +17,17 @@ const Payment = () => {
       <div className="flex gap-2">
         <Link
           to={"/success-order"}
-          onClick={() =>
+          onClick={() => {
             addOrder({
               userinformation: JSON.parse(userinfo),
               products: JSON.parse(orders),
               prices: JSON.parse(allPriace),
               deleverd: false,
-            })
-          }
+            });
+            localStorage.removeItem("userinfo");
+            localStorage.removeItem("orders");
+            localStorage.removeItem("allPriace");
+          }}
           className="text-white bg-green-400 d-flex justify-content-center align-items-center w-44 rounded text-decoration-none p-2 mt-4 hover:shadow-md"
         >
           پرداخت
