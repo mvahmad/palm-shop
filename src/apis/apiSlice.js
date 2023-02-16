@@ -50,6 +50,12 @@ export const productApi = createApi({
     getCardlength: builder.query({
       query: () => "/card",
     }),
+    getDeleverOrder: builder.query({
+      query: () => "/orders?deleverd=true",
+    }),
+    getUnDeleverOrder: builder.query({
+      query: () => "/orders?deleverd=false",
+    }),
     addOrder: builder.mutation({
       query: (products) => ({
         url: "/orders",
@@ -119,6 +125,8 @@ export const {
   useGetOrdersQuery,
   useGetLengthQuery,
   useGetListProductQuery,
+  useGetDeleverOrderQuery,
+  useGetUnDeleverOrderQuery,
   useGetAdminQuery,
   useAddOrderMutation,
   useAddDataMutation,

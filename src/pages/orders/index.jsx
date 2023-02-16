@@ -1,30 +1,30 @@
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useGetOrdersQuery } from "apis/apiSlice";
-import Form from "react-bootstrap/Form";
+
 import PaginationManager from "components/pagination";
 import OrderModal from "components/orderModal";
 
 const Orders = () => {
   const id = useParams(":pageId");
   const { data: allData } = useGetOrdersQuery(id.pageNumber);
-  console.log("orders", allData);
+
   return (
     <div className="flex flex-col">
-      <div className="flex justify-around p-2">
+      <div className="flex justify-around p-2 m-1">
         <h4>مدیریت سفارش ها</h4>
-        <div className="flex gap-2">
-          <Form.Check
-            inline
-            label="سفارش های تحویل شده"
-            type="radio"
-            name="group1"
-          />
-          <Form.Check
-            inline
-            label="سفارش های در انتظار ارسال"
-            type="radio"
-            name="group1"
-          />
+        <div className="flex gap-2 ">
+          <Link
+            to={"/management-product/orders/delever"}
+            className="p-1 text-decoration-none rounded text-white bg-green-400 "
+          >
+            سفارش های تحویل شده
+          </Link>
+          <Link
+            to={"/management-product/orders/undelever"}
+            className="p-1 text-decoration-none rounded text-white bg-orange-400 "
+          >
+            سفارش های در انتظار ارسال
+          </Link>
         </div>
       </div>
       <div className="flex flex-col  justify-center items-center">

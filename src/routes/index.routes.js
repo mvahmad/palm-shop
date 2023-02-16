@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Home from "pages/home";
 import Product from "pages/product";
 import AllProducts from "pages/allproducts";
@@ -18,6 +18,8 @@ import Serch from "components/serchBar";
 import ProductsPage from "pages/products";
 import SuccessPage from "pages/successPage";
 import Unsuccess from "pages/unSsccessPage";
+import DeleverOrder from "pages/deleverOrders";
+import UnDeleverOrder from "pages/unDeleverOrder";
 
 const AppRoutes = () => {
   return (
@@ -52,6 +54,8 @@ const AppRoutes = () => {
           element={<PriceTable />}
         />
         <Route path="orders/page/:pageNumber" element={<Orders />} />
+        <Route path="orders/delever" element={<DeleverOrder />} />
+        <Route path="orders/undelever" element={<UnDeleverOrder />} />
       </Route>
 
       <Route path="/about" element={<About />} />

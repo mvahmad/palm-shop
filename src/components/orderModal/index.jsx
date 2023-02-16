@@ -101,7 +101,7 @@ const OrderModal = ({ allData, elementId }) => {
                   updateOrderData({
                     ...orderData,
                     deleverd: true,
-                    deleteDate: deleverDate,
+                    deleverDate: deleverDate,
                   });
                 }}
               >
