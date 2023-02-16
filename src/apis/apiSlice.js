@@ -63,6 +63,7 @@ export const productApi = createApi({
         body: products,
       }),
     }),
+
     addData: builder.mutation({
       query: (products) => ({
         url: "/products",
@@ -108,7 +109,17 @@ export const productApi = createApi({
           contentType: "application/json",
         },
       }),
-
+      removeCard: builder.mutation({
+        query: ({ id }) => ({
+          url: `/card/${id}`,
+          method: "DELETE",
+          body: id,
+          headers: {
+            token: `${JSON.parse(localStorage.getItem("login")).token}`,
+            contentType: "application/json",
+          },
+        }),
+      }),
       invalidatesTags: ["Products"],
     }),
   }),

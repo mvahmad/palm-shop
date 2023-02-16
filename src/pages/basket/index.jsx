@@ -1,5 +1,5 @@
 import { useGetCardlengthQuery } from "apis/apiSlice";
-import Counter from "components/counter";
+
 import Fotter from "layouts/footer";
 import Header from "layouts/header";
 import { useEffect, useState } from "react";
@@ -18,7 +18,7 @@ const Basket = () => {
 
     setPrice(sum);
   }, [basketData]);
-  console.log(basketData);
+
   return (
     <>
       <Header />
@@ -39,7 +39,6 @@ const Basket = () => {
             <tbody>
               {basketData &&
                 basketData.map((element, id) => {
-                  // setPrice(element.price);
                   return (
                     <tr key={id} className="border-2 border-slate-800">
                       <td className="border-2 border-slate-800">
@@ -52,7 +51,6 @@ const Basket = () => {
                         {element.price * element.quantity}
                       </td>
                       <td className="border-2 border-slate-800">
-                        {/* <Counter value={element.quantity} /> */}
                         {element.quantity}
                       </td>
                     </tr>

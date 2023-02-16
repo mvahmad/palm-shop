@@ -24,8 +24,8 @@ const Payment = () => {
               prices: JSON.parse(allPriace),
               deleverd: false,
             });
+            localStorage.removeItem("basket");
             localStorage.removeItem("userinfo");
-            localStorage.removeItem("orders");
             localStorage.removeItem("allPriace");
           }}
           className="text-white bg-green-400 d-flex justify-content-center align-items-center w-44 rounded text-decoration-none p-2 mt-4 hover:shadow-md"
