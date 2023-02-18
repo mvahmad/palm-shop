@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useGetListProductQuery, useDeleteDataMutation } from "apis/apiSlice";
 import PaginationManager from "components/pagination";
-import { useState } from "react";
+
 import AddProductModal from "components/modal";
 import UpdateDataModal from "components/updateModal";
 
@@ -9,7 +9,7 @@ const ManagementAllProduct = () => {
   const id = useParams(":pageId");
   const { data: allData } = useGetListProductQuery(id.pageNumber);
   const [removeProduct] = useDeleteDataMutation();
-
+  console.log(allData);
   return (
     <div className="flex flex-col">
       <div className="flex justify-around p-2">
@@ -38,7 +38,7 @@ const ManagementAllProduct = () => {
                       {element.name}
                     </td>
                     <td className="border-slate-800">
-                      {element.category}/{element.subcategory}
+                      {element.category}/{element.subCategory}
                     </td>
                     <td className="border-2 border-slate-800 gap-1">
                       <UpdateDataModal id={element.id} />

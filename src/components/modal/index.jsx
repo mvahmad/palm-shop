@@ -32,7 +32,7 @@ const AddProductModal = () => {
       brand: Yup.string().required("برند نباید خالی باشد"),
       price: Yup.number().required("قیمت نباید خالی باشد"),
       category: Yup.string().required("دسته بندی نباید خالی باشد"),
-      subcategory: Yup.string().required("زیرمجموعه نباید خالی باشد"),
+      subCategory: Yup.string().required("زیرمجموعه نباید خالی باشد"),
       description: Yup.string().required("توضیحات نباید خالی"),
     }),
   });
