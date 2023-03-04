@@ -2,32 +2,41 @@ import { useUpdateDataMutation, useGetFilterProductQuery } from "apis/apiSlice";
 import { useFormik } from "formik";
 import Modal from "react-bootstrap/Modal";
 import * as Yup from "yup";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
+import { useGetCateguryQuery, useGetSubCategoryQuery } from "apis/apiSlice";
 
 let fileSrc = null;
+
 const UpdateDataModal = ({ id }) => {
   const [show, setShow] = useState(false);
   const [updateProduct] = useUpdateDataMutation();
-  const { data: filterProduct } = useGetFilterProductQuery(id);
-
-  const handeleClose = () => setShow(false);
+  const { data: category } = useGetCateguryQuery();
+  const { data: subCategory } = useGetSubCategoryQuery();
+  const { data: filterProduct, isSuccess } = useGetFilterProductQuery(id);
   let product = filterProduct && filterProduct[0];
+  if (isSuccess) {
+    const splitImage = filterProduct[0].image.split(`/`);
+    fileSrc = splitImage[4];
+  }
+
+  const handeleClose = () => {
+    setShow(false);
+  };
 
   const handeleShow = () => {
     setShow(true);
-    console.log(product);
   };
 
   const formik = useFormik({
     initialValues: {
-      image: product && product.imag,
-      //   name: product.name,
-      //   category: product.category,
-      //   brand: product.brand,
-      //   price: product.price,
-      //   description: product.description,
-      //   subCategory: product.subCategory,
+      image: null,
+      name: "",
+      category: "",
+      brand: "",
+      price: "",
+      description: "",
+      subCategory: "",
     },
     validationSchema: Yup.object({
       name: Yup.string().required("نام  نباید خالی باشد"),
@@ -35,25 +44,43 @@ const UpdateDataModal = ({ id }) => {
       brand: Yup.string().required("برند نباید خالی باشد"),
       price: Yup.number().required("قیمت نباید خالی باشد"),
       category: Yup.string().required("دسته بندی نباید خالی باشد"),
-      subcategory: Yup.string().required("زیرمجموعه نباید خالی باشد"),
+      subCategory: Yup.string().required("زیرمجموعه نباید خالی باشد"),
       description: Yup.string().required("توضیحات نباید خالی"),
     }),
   });
 
   const imageHandeler = async (e) => {
-    const filesSelected = e.target.files;
+    // console.log(e.target.files.length);
+    let filesSelected;
+
+    filesSelected = e.target.files;
 
     const formData = new FormData();
     formData.append("image", filesSelected[0]);
 
     await axios.post("http://localhost:3000/upload", formData).then((res) => {
-      console.log(res.data.filename);
       fileSrc = res.data.filename;
     });
   };
 
-  const handleSubmit = async () => {
+  useEffect(() => {
+    if (filterProduct && isSuccess == true) {
+      formik.initialValues.image = product.image && product.image;
+      formik.initialValues.name = product.name && product.name;
+      formik.initialValues.category = product.category && product.category;
+      formik.initialValues.subCategory =
+        product.subCategory && product.subCategory;
+      formik.initialValues.brand = product.brand && product.brand;
+      formik.initialValues.price = product.price && product.price;
+      formik.initialValues.description =
+        product.description && product.description;
+    }
+  }, [filterProduct, id]);
+  // console.log("initial value", formik.initialValues);
+  // console.log("image", formik.values.image);
+  const handleSubmit = () => {
     updateProduct({
+      id,
       name: formik.values.name,
       image: `http://localhost:3000/files/${fileSrc}`,
       brand: formik.values.brand,
@@ -82,6 +109,7 @@ const UpdateDataModal = ({ id }) => {
             <div className="flex flex-col gap-1">
               <label>تصویر کالا:</label>
               <div className="w-full flex gap-3">
+                <img src={formik.values.image} className="w-10 h-10" />
                 <input
                   name="image"
                   accept="image/*"
@@ -109,27 +137,45 @@ const UpdateDataModal = ({ id }) => {
               <div className="w-full">
                 <label>دسته بندی:</label>
                 <div className="w-full">
-                  <input
+                  <select
                     name="category"
                     type="text"
                     className="bg-slate-300 p-1 w-full focus:outline-none focus:border-none"
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     value={formik.values.category}
-                  />
+                  >
+                    {category &&
+                      category.map((element) => {
+                        return (
+                          <option value={element.name} key={element.id}>
+                            {element.name}
+                          </option>
+                        );
+                      })}
+                  </select>
                 </div>
               </div>
               <div className="w-full">
                 <label>زیرگروه:</label>
                 <div className="w-full">
-                  <input
+                  <select
                     name="subCategory"
                     type="text"
                     className="bg-slate-300 p-1 w-full focus:outline-none focus:border-none"
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     value={formik.values.subCategory}
-                  />
+                  >
+                    {subCategory &&
+                      subCategory.map((element) => {
+                        return (
+                          <option value={element.name} key={element.id}>
+                            {element.name}
+                          </option>
+                        );
+                      })}
+                  </select>
                 </div>
               </div>
             </div>
@@ -173,7 +219,7 @@ const UpdateDataModal = ({ id }) => {
                 />
               </div>
             </div>
-            <div>
+            <div className="flex gap-2">
               <button
                 type="submit"
                 className="bg-green-400 rounded hover:shadow-md w-24"

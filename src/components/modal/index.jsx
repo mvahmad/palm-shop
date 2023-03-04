@@ -4,14 +4,17 @@ import { useState } from "react";
 import { useAddDataMutation } from "apis/apiSlice";
 import { useFormik } from "formik";
 import axios from "axios";
+import { useGetCateguryQuery, useGetSubCategoryQuery } from "apis/apiSlice";
 
 let fileSrc = null;
 
 const AddProductModal = () => {
   const [show, setShow] = useState(false);
   const [addProduct] = useAddDataMutation();
+  const { data: category } = useGetCateguryQuery();
+  const { data: subCategory } = useGetSubCategoryQuery();
 
-  const handeleClose = (e) => {
+  const handeleClose = () => {
     setShow(false);
   };
   const handeleShow = () => setShow(true);
@@ -103,27 +106,45 @@ const AddProductModal = () => {
               <div className="w-full">
                 <label>دسته بندی:</label>
                 <div className="w-full">
-                  <input
+                  <select
                     name="category"
                     type="text"
                     className="bg-slate-300 p-1 w-full focus:outline-none focus:border-none"
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     value={formik.values.category}
-                  />
+                  >
+                    {category &&
+                      category.map((element) => {
+                        return (
+                          <option value={element.name} key={element.id}>
+                            {element.name}
+                          </option>
+                        );
+                      })}
+                  </select>
                 </div>
               </div>
               <div className="w-full">
                 <label>زیرگروه:</label>
                 <div className="w-full">
-                  <input
+                  <select
                     name="subCategory"
                     type="text"
                     className="bg-slate-300 p-1 w-full focus:outline-none focus:border-none"
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     value={formik.values.subCategory}
-                  />
+                  >
+                    {subCategory &&
+                      subCategory.map((element) => {
+                        return (
+                          <option value={element.name} key={element.id}>
+                            {element.name}
+                          </option>
+                        );
+                      })}
+                  </select>
                 </div>
               </div>
             </div>
