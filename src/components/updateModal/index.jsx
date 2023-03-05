@@ -16,7 +16,7 @@ const UpdateDataModal = ({ id }) => {
   const { data: filterProduct, isSuccess } = useGetFilterProductQuery(id);
   let product = filterProduct && filterProduct[0];
   if (isSuccess) {
-    const splitImage = filterProduct[0].image.split(`/`);
+    const splitImage = filterProduct[0].image.split("/");
     fileSrc = splitImage[4];
   }
 
