@@ -21,6 +21,9 @@ export const productApi = createApi({
       query: () => "/subcategory",
     }),
     getFilterCategory: builder.query({
+      query: (name) => `/products?category=${name}&_limit=5`,
+    }),
+    getProductItems: builder.query({
       query: (name) => `/products?category=${name}`,
     }),
     getFilterProduct: builder.query({
@@ -129,6 +132,7 @@ export const {
   useGetFilterCategoryQuery,
   useGetFilterProductQuery,
   useGetSearchProductQuery,
+  useGetProductItemsQuery,
   useGetCardlengthQuery,
   useGetOrdersQuery,
   useGetLengthQuery,

@@ -2,12 +2,12 @@ import Category from "components/category";
 import Fotter from "layouts/footer";
 import Header from "layouts/header";
 import { useParams } from "react-router-dom";
-import { useGetFilterCategoryQuery } from "apis/apiSlice";
+import { useGetProductItemsQuery } from "apis/apiSlice";
 import Card from "components/card";
 import AccordionProduct from "components/accordion";
 const ProductsPage = () => {
   const { id } = useParams();
-  const { data: allData } = useGetFilterCategoryQuery(id);
+  const { data: allData } = useGetProductItemsQuery(id);
 
   return (
     <>
