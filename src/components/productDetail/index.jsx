@@ -6,7 +6,7 @@ import {
   useAddCardDataMutation,
   useGetCardlengthQuery,
 } from "apis/apiSlice";
-
+import toast, { Toaster } from "react-hot-toast";
 import "../../assets/styles/image.css";
 import { useState } from "react";
 
@@ -60,7 +60,8 @@ const ProductDetail = () => {
 
                   <button
                     className="text-white bg-copperfield-400 d-flex justify-content-center align-items-center w-44 rounded text-decoration-none"
-                    onClick={() =>
+                    onClick={() => {
+                      toast.success("محصول به سبد خرید اضافه شد");
                       dataCard({
                         products: {
                           id: Number(final),
@@ -72,11 +73,12 @@ const ProductDetail = () => {
                         isExist:
                           Boolean(isExist.length) == false ? false : true,
                         length: cardLength.length,
-                      })
-                    }
+                      });
+                    }}
                   >
                     اضافه به سبد خرید
                   </button>
+                  <Toaster position="top-right" reverseOrder={false} />
                 </div>
               </div>
             </div>

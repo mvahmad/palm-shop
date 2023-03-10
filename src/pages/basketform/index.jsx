@@ -3,10 +3,11 @@ import Fotter from "layouts/footer";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Link } from "react-router-dom";
+import toast, { Toaster } from "react-hot-toast";
 const BasketForm = () => {
   const formik = useFormik({
     initialValues: {
-      fristName: "",
+      userName: "",
       lastName: "",
       phone: "",
       address: "",
@@ -22,6 +23,7 @@ const BasketForm = () => {
     }),
     onSubmit: (values) => {
       localStorage.setItem("userinfo", JSON.stringify(values));
+      toast.success("اطلاعات شما ثبت شد");
     },
   });
 
@@ -44,8 +46,8 @@ const BasketForm = () => {
                   className="bg-slate-300 p-1 w-full focus:outline-none focus:border-none"
                 />
               </div>
-              {formik.touched.fristName && formik.errors.fristName ? (
-                <span className="text-red-500">{formik.errors.fristName}</span>
+              {formik.touched.userName && formik.errors.userName ? (
+                <span className="text-red-500">{formik.errors.userName}</span>
               ) : null}
             </div>
             <div className="w-full">
@@ -106,6 +108,7 @@ const BasketForm = () => {
             >
               ثبت
             </button>
+            <Toaster position="top-right" reverseOrder={false} />
             <Link
               to={"/payment"}
               className="text-white bg-green-400 d-flex justify-content-center align-items-center w-44 rounded text-decoration-none p-1 mt-4 hover:shadow-md"

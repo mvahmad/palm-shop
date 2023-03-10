@@ -5,6 +5,7 @@ import * as Yup from "yup";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useGetCateguryQuery, useGetSubCategoryQuery } from "apis/apiSlice";
+import toast, { Toaster } from "react-hot-toast";
 
 let fileSrc = null;
 
@@ -50,7 +51,6 @@ const UpdateDataModal = ({ id }) => {
   });
 
   const imageHandeler = async (e) => {
-    // console.log(e.target.files.length);
     let filesSelected;
 
     filesSelected = e.target.files;
@@ -76,8 +76,7 @@ const UpdateDataModal = ({ id }) => {
         product.description && product.description;
     }
   }, [filterProduct, id]);
-  // console.log("initial value", formik.initialValues);
-  // console.log("image", formik.values.image);
+
   const handleSubmit = () => {
     updateProduct({
       id,
@@ -88,6 +87,12 @@ const UpdateDataModal = ({ id }) => {
       subCategory: formik.values.subCategory,
       price: formik.values.price,
       description: formik.values.description,
+    });
+
+    toast.promise(updateProduct, {
+      loading: "شکیبا باشید",
+      success: "عملیات موفقیت آمیز بود",
+      error: "عملیات موفقیت آمیزنبود",
     });
   };
 
@@ -226,6 +231,7 @@ const UpdateDataModal = ({ id }) => {
               >
                 ذخیره
               </button>
+              <Toaster position="top-right" reverseOrder={false} />
               <button
                 type="button"
                 className="bg-copperfield-400 rounded hover:shadow-md w-24"

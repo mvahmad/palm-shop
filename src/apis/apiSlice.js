@@ -92,6 +92,14 @@ export const productApi = createApi({
       }),
       invalidatesTags: ["Products"],
     }),
+    removeCard: builder.mutation({
+      query: ({ id }) => ({
+        url: `/card/${id}`,
+        method: "DELETE",
+        body: id,
+      }),
+    }),
+    invalidatesTags: ["Products"],
     updateOrder: builder.mutation({
       query: (products) => ({
         url: `/orders/${products.id}`,
@@ -108,19 +116,8 @@ export const productApi = createApi({
           token: `${JSON.parse(localStorage.getItem("login")).token}`,
           contentType: "application/json",
         },
+        invalidatesTags: ["Products"],
       }),
-      removeCard: builder.mutation({
-        query: ({ id }) => ({
-          url: `/card/${id}`,
-          method: "DELETE",
-          body: id,
-          headers: {
-            token: `${JSON.parse(localStorage.getItem("login")).token}`,
-            contentType: "application/json",
-          },
-        }),
-      }),
-      invalidatesTags: ["Products"],
     }),
   }),
 });
@@ -142,6 +139,7 @@ export const {
   useAddOrderMutation,
   useAddDataMutation,
   useAddCardDataMutation,
+  useRemoveCardMutation,
   useDeleteDataMutation,
   useUpdateDataMutation,
   useUpdateOrderMutation,

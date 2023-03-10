@@ -1,15 +1,21 @@
 import { useParams } from "react-router-dom";
 import { useGetListProductQuery, useDeleteDataMutation } from "apis/apiSlice";
 import PaginationManager from "components/pagination";
-
+import toast, { Toaster } from "react-hot-toast";
 import AddProductModal from "components/modal";
 import UpdateDataModal from "components/updateModal";
+import { useEffect, useState } from "react";
 
 const ManagementAllProduct = () => {
   const id = useParams(":pageId");
-  const { data: allData } = useGetListProductQuery(id.pageNumber);
+  const { data: allData, isSuccess } = useGetListProductQuery(id.pageNumber);
   const [removeProduct] = useDeleteDataMutation();
-  console.log(allData);
+  const [result, stResult] = useState(null);
+  useEffect(() => {
+    if (isSuccess) {
+      stResult(allData);
+    }
+  }, [allData, isSuccess, removeProduct]);
   return (
     <div className="flex flex-col">
       <div className="flex justify-around p-2">
@@ -27,8 +33,10 @@ const ManagementAllProduct = () => {
             </tr>
           </thead>
           <tbody>
-            {allData &&
-              allData.map((element, id) => {
+            {result === null ? (
+              <span>loading...</span>
+            ) : (
+              result.map((element, id) => {
                 return (
                   <tr key={id} className="border-2 border-slate-800">
                     <td className="border-2 border-slate-800">
@@ -46,14 +54,24 @@ const ManagementAllProduct = () => {
                       <button
                         type="button"
                         className="bg-copperfield-500 text-white rounded hover:shadow-md w-24"
-                        onClick={() => removeProduct({ id: element.id })}
+                        onClick={() => {
+                          removeProduct({ id: element.id });
+                          window.location.reload();
+                          toast.promise(removeProduct, {
+                            loading: "شکیبا باشید",
+                            success: "محصول با موفقیت حذف شد",
+                            error: "محصول حذف نشد",
+                          });
+                        }}
                       >
                         حذف
                       </button>
+                      <Toaster position="top-right" reverseOrder={false} />
                     </td>
                   </tr>
                 );
-              })}
+              })
+            )}
           </tbody>
         </table>
         <PaginationManager path={"all-products"} />

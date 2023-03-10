@@ -1,12 +1,23 @@
-import { useGetCardlengthQuery } from "apis/apiSlice";
+import { useGetCardlengthQuery, useRemoveCardMutation } from "apis/apiSlice";
 
 import Fotter from "layouts/footer";
 import Header from "layouts/header";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import toast, { Toaster } from "react-hot-toast";
 const Basket = () => {
   const { data: basketData } = useGetCardlengthQuery();
+  const [deleteData] = useRemoveCardMutation();
   const [allPrice, setPrice] = useState();
+
+  const removObj = (arr, id) => {
+    const objId = arr.findIndex((obj) => obj.id === id);
+    if (objId > -1) {
+      arr.splice(objId, 1);
+    }
+    return arr;
+  };
+
   let price = [];
   let sum = 0;
   useEffect(() => {
@@ -34,6 +45,7 @@ const Basket = () => {
                 <th className="border-2 border-slate-800">کالا</th>
                 <th className="border-2 border-slate-800">قیمت</th>
                 <th className="border-2 border-slate-800">تعداد</th>
+                <th className="border-2 border-slate-800"></th>
               </tr>
             </thead>
             <tbody>
@@ -52,6 +64,26 @@ const Basket = () => {
                       </td>
                       <td className="border-2 border-slate-800">
                         {element.quantity}
+                      </td>
+                      <td className="border-2 border-slate-800">
+                        <button
+                          className="text-white bg-red-500 d-flex justify-content-center align-items-center w-44 rounded text-decoration-none"
+                          onClick={() => {
+                            const fakeBasket = JSON.parse(
+                              localStorage.getItem("basket")
+                            );
+                            const filterCard = fakeBasket.filter(
+                              (item) => item.id === element.id
+                            );
+                            removObj(fakeBasket, filterCard[0].id);
+                            deleteData({ id: filterCard[0].id });
+                            toast.success("محصول با موفقیت حذف شد");
+                            window.location.reload();
+                          }}
+                        >
+                          حذف
+                        </button>
+                        <Toaster position="top-right" reverseOrder={false} />
                       </td>
                     </tr>
                   );

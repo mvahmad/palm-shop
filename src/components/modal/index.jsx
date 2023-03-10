@@ -5,6 +5,7 @@ import { useAddDataMutation } from "apis/apiSlice";
 import { useFormik } from "formik";
 import axios from "axios";
 import { useGetCateguryQuery, useGetSubCategoryQuery } from "apis/apiSlice";
+import toast, { Toaster } from "react-hot-toast";
 
 let fileSrc = null;
 
@@ -61,6 +62,11 @@ const AddProductModal = () => {
       subCategory: formik.values.subCategory,
       price: formik.values.price,
       description: formik.values.description,
+    });
+    toast.promise(addProduct, {
+      loading: "شکیبا باشید",
+      success: "عملیات موفقیت آمیز بود",
+      error: "عملیات موفقیت آمیزنبود",
     });
   };
 
@@ -195,6 +201,7 @@ const AddProductModal = () => {
               >
                 ذخیره
               </button>
+              <Toaster position="top-right" reverseOrder={false} />
               <button
                 type="button"
                 className="bg-copperfield-400 rounded hover:shadow-md w-24"
