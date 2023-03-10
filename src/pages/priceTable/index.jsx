@@ -1,20 +1,41 @@
 import { useParams } from "react-router-dom";
 import { useGetListProductQuery, useUpdateDataMutation } from "apis/apiSlice";
 import PaginationManager from "components/pagination";
-import { useState } from "react";
-import { useFormik } from "formik";
-import { useEffect } from "react";
+
+import toast, { Toaster } from "react-hot-toast";
+import { useEffect, useRef, useState } from "react";
 
 const PriceTable = () => {
   const id = useParams(":pageId");
-  const { data: allData } = useGetListProductQuery(id.pageNumber);
+  const {
+    data: allData,
+    isSuccess,
+    isLoading,
+  } = useGetListProductQuery(id.pageNumber);
   const [updateData] = useUpdateDataMutation();
+  const [editData, setEditData] = useState(null);
+
+  useEffect(() => {
+    if (isSuccess) {
+      setEditData(allData);
+    }
+  }, [updateData, allData, isSuccess]);
 
   return (
     <div className="flex flex-col">
       <div className="flex justify-around p-2">
         <h4>مدیریت موجودی وقیمت ها</h4>
-        <button className="bg-copperfield-400 rounded w-14 hover:shadow-md">
+        <button
+          className="bg-copperfield-400 rounded w-14 hover:shadow-md"
+          onClick={() => {
+            window.location.reload();
+            toast.promise(updateData, {
+              loading: "شکیبا باشید",
+              success: "عملیات موفقیت آمیز بود",
+              error: "عملیات موفقیت آمیزنبود",
+            });
+          }}
+        >
           ذخیره
         </button>
       </div>
@@ -30,8 +51,10 @@ const PriceTable = () => {
             </tr>
           </thead>
           <tbody>
-            {allData &&
-              allData.map((element, id) => {
+            {editData === null ? (
+              <span>loading...</span>
+            ) : (
+              editData.map((element, id) => {
                 return (
                   <tr key={id} className="border-2 border-slate-800">
                     <td className="border-2 border-slate-800">
@@ -40,12 +63,17 @@ const PriceTable = () => {
                     <td className="border-2 border-slate-800">
                       {element.name}
                     </td>
+
                     <td className="border-2 border-slate-800">
                       <input
                         type="number"
-                        defaultValue={element.price}
+                        placeholder={element.price}
+                        className="placeholder-slate-900"
                         onChange={(e) => {
-                          updateData({ ...element, price: e.target.value });
+                          updateData({
+                            ...element,
+                            price: e.target.value,
+                          });
                         }}
                       />
                     </td>
@@ -54,16 +82,18 @@ const PriceTable = () => {
                         type="number"
                         defaultValue={element.quantity}
                         onChange={(e) =>
-                          updateData({ ...element, quantity: e.target })
+                          updateData({ ...element, quantity: e.target.value })
                         }
                       />
                     </td>
                   </tr>
                 );
-              })}
+              })
+            )}
           </tbody>
         </table>
         <PaginationManager path={"price-inventory"} />
+        <Toaster position="top-right" reverseOrder={false} />
       </div>
     </div>
   );

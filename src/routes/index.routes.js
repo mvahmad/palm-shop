@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Home from "pages/home";
 import Product from "pages/product";
 import AllProducts from "pages/allproducts";
@@ -16,6 +16,10 @@ import PriceTable from "pages/priceTable";
 import Orders from "pages/orders";
 import Serch from "components/serchBar";
 import ProductsPage from "pages/products";
+import SuccessPage from "pages/successPage";
+import Unsuccess from "pages/unSsccessPage";
+import DeleverOrder from "pages/deleverOrders";
+import UnDeleverOrder from "pages/unDeleverOrder";
 
 const AppRoutes = () => {
   return (
@@ -23,13 +27,16 @@ const AppRoutes = () => {
       <Route path="/home" element={<Home />} />
       <Route path="/" element={<Home />} />
       <Route path="/allproduct" element={<AllProducts />} />
-      <Route path="/product/:id" element={<Product />} />
+      <Route path="/product/:pageId" element={<Product />} />
       <Route path="/basket" element={<Basket />} />
-      <Route path="/basketform" element={<BasketForm />} />
+      <Route path="/basket-form" element={<BasketForm />} />
       <Route path="/payment" element={<Payment />} />
       <Route path="/management-login" element={<ManagementLogin />} />
       <Route path="/serch" element={<Serch />} />
       <Route path="/products/:id" element={<ProductsPage />} />
+      <Route path="/success-order" element={<SuccessPage />} />
+      <Route path="/unsuccess-order" element={<Unsuccess />} />
+
       <Route
         path="/management-product"
         element={
@@ -47,6 +54,8 @@ const AppRoutes = () => {
           element={<PriceTable />}
         />
         <Route path="orders/page/:pageNumber" element={<Orders />} />
+        <Route path="orders/delever" element={<DeleverOrder />} />
+        <Route path="orders/undelever" element={<UnDeleverOrder />} />
       </Route>
 
       <Route path="/about" element={<About />} />

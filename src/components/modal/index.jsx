@@ -4,14 +4,18 @@ import { useState } from "react";
 import { useAddDataMutation } from "apis/apiSlice";
 import { useFormik } from "formik";
 import axios from "axios";
+import { useGetCateguryQuery, useGetSubCategoryQuery } from "apis/apiSlice";
+import toast, { Toaster } from "react-hot-toast";
 
 let fileSrc = null;
 
 const AddProductModal = () => {
   const [show, setShow] = useState(false);
   const [addProduct] = useAddDataMutation();
+  const { data: category } = useGetCateguryQuery();
+  const { data: subCategory } = useGetSubCategoryQuery();
 
-  const handeleClose = (e) => {
+  const handeleClose = () => {
     setShow(false);
   };
   const handeleShow = () => setShow(true);
@@ -32,7 +36,7 @@ const AddProductModal = () => {
       brand: Yup.string().required("برند نباید خالی باشد"),
       price: Yup.number().required("قیمت نباید خالی باشد"),
       category: Yup.string().required("دسته بندی نباید خالی باشد"),
-      subcategory: Yup.string().required("زیرمجموعه نباید خالی باشد"),
+      subCategory: Yup.string().required("زیرمجموعه نباید خالی باشد"),
       description: Yup.string().required("توضیحات نباید خالی"),
     }),
   });
@@ -59,6 +63,11 @@ const AddProductModal = () => {
       price: formik.values.price,
       description: formik.values.description,
     });
+    toast.promise(addProduct, {
+      loading: "شکیبا باشید",
+      success: "عملیات موفقیت آمیز بود",
+      error: "عملیات موفقیت آمیزنبود",
+    });
   };
 
   return (
@@ -80,7 +89,7 @@ const AddProductModal = () => {
               <label>تصویر کالا:</label>
               <div className="w-full flex gap-3">
                 <input
-                  type="text"
+                  type="file"
                   className="bg-slate-300 p-1 w-full focus:outline-none focus:border-none"
                   onChange={imageHandeler}
                 />
@@ -103,27 +112,45 @@ const AddProductModal = () => {
               <div className="w-full">
                 <label>دسته بندی:</label>
                 <div className="w-full">
-                  <input
+                  <select
                     name="category"
                     type="text"
                     className="bg-slate-300 p-1 w-full focus:outline-none focus:border-none"
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     value={formik.values.category}
-                  />
+                  >
+                    {category &&
+                      category.map((element) => {
+                        return (
+                          <option value={element.name} key={element.id}>
+                            {element.name}
+                          </option>
+                        );
+                      })}
+                  </select>
                 </div>
               </div>
               <div className="w-full">
                 <label>زیرگروه:</label>
                 <div className="w-full">
-                  <input
+                  <select
                     name="subCategory"
                     type="text"
                     className="bg-slate-300 p-1 w-full focus:outline-none focus:border-none"
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     value={formik.values.subCategory}
-                  />
+                  >
+                    {subCategory &&
+                      subCategory.map((element) => {
+                        return (
+                          <option value={element.name} key={element.id}>
+                            {element.name}
+                          </option>
+                        );
+                      })}
+                  </select>
                 </div>
               </div>
             </div>
@@ -174,6 +201,7 @@ const AddProductModal = () => {
               >
                 ذخیره
               </button>
+              <Toaster position="top-right" reverseOrder={false} />
               <button
                 type="button"
                 className="bg-copperfield-400 rounded hover:shadow-md w-24"
