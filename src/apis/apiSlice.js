@@ -26,6 +26,7 @@ export const productApi = createApi({
     getFilterProduct: builder.query({
       query: (id) => `/products?id=${id}`,
     }),
+
     getSearchProduct: builder.query({
       query: (value) => `/products?q=${value}`,
     }),
@@ -46,6 +47,23 @@ export const productApi = createApi({
       },
     }),
 
+    getCardlength: builder.query({
+      query: () => "/card",
+    }),
+    getDeleverOrder: builder.query({
+      query: () => "/orders?deleverd=true",
+    }),
+    getUnDeleverOrder: builder.query({
+      query: () => "/orders?deleverd=false",
+    }),
+    addOrder: builder.mutation({
+      query: (products) => ({
+        url: "/orders",
+        method: "POST",
+        body: products,
+      }),
+    }),
+
     addData: builder.mutation({
       query: (products) => ({
         url: "/products",
@@ -54,6 +72,14 @@ export const productApi = createApi({
       }),
       invalidatesTags: ["Products"],
     }),
+    addCardData: builder.mutation({
+      query: ({ products, isExist, length }) => ({
+        url: check(length, isExist, Number(products.id)),
+        method: check2(length, isExist),
+        body: products,
+      }),
+    }),
+
     updateData: builder.mutation({
       query: (products) => ({
         url: `/products/${products.id}`,
@@ -66,6 +92,21 @@ export const productApi = createApi({
       }),
       invalidatesTags: ["Products"],
     }),
+    removeCard: builder.mutation({
+      query: ({ id }) => ({
+        url: `/card/${id}`,
+        method: "DELETE",
+        body: id,
+      }),
+    }),
+    invalidatesTags: ["Products"],
+    updateOrder: builder.mutation({
+      query: (products) => ({
+        url: `/orders/${products.id}`,
+        method: "PATCH",
+        body: products,
+      }),
+    }),
     deleteData: builder.mutation({
       query: ({ id }) => ({
         url: `/products/${id}`,
@@ -75,9 +116,8 @@ export const productApi = createApi({
           token: `${JSON.parse(localStorage.getItem("login")).token}`,
           contentType: "application/json",
         },
+        invalidatesTags: ["Products"],
       }),
-
-      invalidatesTags: ["Products"],
     }),
   }),
 });
@@ -89,11 +129,38 @@ export const {
   useGetFilterCategoryQuery,
   useGetFilterProductQuery,
   useGetSearchProductQuery,
+  useGetCardlengthQuery,
   useGetOrdersQuery,
   useGetLengthQuery,
   useGetListProductQuery,
+  useGetDeleverOrderQuery,
+  useGetUnDeleverOrderQuery,
   useGetAdminQuery,
+  useAddOrderMutation,
   useAddDataMutation,
+  useAddCardDataMutation,
+  useRemoveCardMutation,
   useDeleteDataMutation,
   useUpdateDataMutation,
+  useUpdateOrderMutation,
 } = productApi;
+
+function check(length, isExist, product) {
+  if (length === 0) {
+    return "/card";
+  } else if (isExist === false) {
+    return "/card";
+  } else if (isExist === true) {
+    return `/card/${product}`;
+  }
+}
+
+function check2(length, isExist) {
+  if (length === 0) {
+    return "POST";
+  } else if (isExist === false) {
+    return "POST";
+  } else if (isExist === true) {
+    return "PATCH";
+  }
+}

@@ -25,7 +25,15 @@ const Header = () => {
           >
             مدیریت
           </Link>
-          <Link className="text-orange-white-50 " to={"/basket"}>
+          <Link
+            className="text-orange-white-50 "
+            to={"/basket"}
+            onClick={() =>
+              setTimeout(() => {
+                document.location.reload();
+              }, 10)
+            }
+          >
             <img src={basket} width="19" height="19" />
           </Link>
           <Link className="text-orange-white-50  hover:text-copperfield-600 text-decoration-none">
