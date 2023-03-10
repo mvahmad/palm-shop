@@ -93,17 +93,25 @@ const Basket = () => {
         </div>
         <div className="flex justify-between pr-6 pl-6 pb-4">
           <h5 className="font-bold">قیمت نهایی:{allPrice}تومان</h5>
-          <Link
-            to={"/basket-form"}
-            onClick={() => {
-              localStorage.setItem("basket", JSON.stringify(basketData));
-              localStorage.setItem("allPriace", allPrice);
-            }}
-            type="button"
-            className="text-white bg-copperfield-400 d-flex justify-content-center align-items-center w-44 rounded text-decoration-none"
-          >
-            نهایی کردن خرید
-          </Link>
+          <div className="flex ">
+            <button
+              type="button"
+              className="text-white bg-green-400 d-flex justify-content-center align-items-center w-44 rounded text-decoration-none ml-1"
+              onClick={() => {
+                localStorage.setItem("basket", JSON.stringify(basketData));
+                localStorage.setItem("allPriace", allPrice);
+              }}
+            >
+              ثبت
+            </button>
+            <Link
+              to={"/basket-form"}
+              type="button"
+              className="text-white bg-copperfield-400 d-flex justify-content-center align-items-center w-44 rounded text-decoration-none"
+            >
+              نهایی کردن خرید
+            </Link>
+          </div>
         </div>
       </div>
       <Fotter />
